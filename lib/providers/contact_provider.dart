@@ -45,4 +45,19 @@ class ContactProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> updateContact({
+    required int contactId,
+    required Map<String, dynamic> fields,
+  }) async {
+    try {
+      await _apiService.updateContact(contactId, fields);
+      await fetchContacts();
+    } catch (e) {
+      _errorMessage = e.toString();
+      _state = DataState.error;
+      notifyListeners();
+      rethrow;
+    }
+  }
 }

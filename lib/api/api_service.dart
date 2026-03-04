@@ -66,11 +66,40 @@ class ApiService {
         );
       }
       // If successful, there's nothing to return, the method just completes.
-      print("Text submitted successfully. Processing started on the server.");
     } on SocketException {
       throw Exception('No Internet connection. Please check your network.');
     } catch (e) {
       throw Exception('An unexpected error occurred while submitting text: $e');
+    }
+  }
+
+  /// Updates an existing contact with user-corrected values.
+  Future<void> updateContact(int contactId, Map<String, dynamic> fields) async {
+    final Uri uri = Uri.parse("$_baseUrl/api/contacts/$contactId");
+    final Map<String, dynamic> payload = Map<String, dynamic>.from(fields)
+      ..removeWhere((key, value) => value == null);
+
+    try {
+      final response = await http
+          .put(
+            uri,
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': 'application/json',
+            },
+            body: json.encode(payload),
+          )
+          .timeout(const Duration(seconds: 15));
+
+      if (![200, 201, 202].contains(response.statusCode)) {
+        throw Exception(
+          'Failed to update contact. Status code: ${response.statusCode}\nResponse: ${response.body}',
+        );
+      }
+    } on SocketException {
+      throw Exception('No Internet connection. Please check your network.');
+    } catch (e) {
+      throw Exception('An unexpected error occurred while updating contact: $e');
     }
   }
 }

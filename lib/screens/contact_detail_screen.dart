@@ -1,6 +1,7 @@
 // lib/screens/contact_detail_screen.dart
 
 import 'package:flutter/material.dart';
+import 'contact_edit_screen.dart';
 import '../models/contact.dart';
 
 class ContactDetailScreen extends StatelessWidget {
@@ -13,6 +14,24 @@ class ContactDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(contact.name ?? 'Contact Details'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            tooltip: 'Edit Contact',
+            onPressed: () async {
+              final bool? wasUpdated = await Navigator.push<bool>(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ContactEditScreen(contact: contact),
+                ),
+              );
+
+              if (wasUpdated == true && context.mounted) {
+                Navigator.pop(context, true);
+              }
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),

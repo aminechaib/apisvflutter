@@ -104,13 +104,20 @@ class _ContactListScreenState extends State<ContactListScreen> {
             ),
             subtitle: Text(contact.email ?? 'No Email'),
             trailing: Text(DateFormat('MMM d, yyyy').format(contact.createdAt)),
-            onTap: () {
-              Navigator.push(
+            onTap: () async {
+              final bool? wasUpdated = await Navigator.push<bool>(
                 context,
                 MaterialPageRoute(
                   builder: (context) => ContactDetailScreen(contact: contact),
                 ),
               );
+
+              if (wasUpdated == true && context.mounted) {
+                Provider.of<ContactProvider>(
+                  context,
+                  listen: false,
+                ).fetchContacts();
+              }
             },
           ),
         );
