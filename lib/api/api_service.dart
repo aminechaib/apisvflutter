@@ -102,4 +102,28 @@ class ApiService {
       throw Exception('An unexpected error occurred while updating contact: $e');
     }
   }
+
+  /// Deletes a contact.
+  Future<void> deleteContact(int contactId) async {
+    final Uri uri = Uri.parse("$_baseUrl/api/contacts/$contactId");
+
+    try {
+      final response = await http
+          .delete(
+            uri,
+            headers: {'Accept': 'application/json'},
+          )
+          .timeout(const Duration(seconds: 15));
+
+      if (response.statusCode != 204) {
+        throw Exception(
+          'Failed to delete contact. Status code: ${response.statusCode}\nResponse: ${response.body}',
+        );
+      }
+    } on SocketException {
+      throw Exception('No Internet connection. Please check your network.');
+    } catch (e) {
+      throw Exception('An unexpected error occurred while deleting contact: $e');
+    }
+  }
 }

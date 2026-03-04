@@ -1,13 +1,58 @@
 // lib/screens/contact_detail_screen.dart
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'contact_edit_screen.dart';
 import '../models/contact.dart';
+import '../providers/contact_provider.dart';
 
 class ContactDetailScreen extends StatelessWidget {
   final Contact contact;
 
   const ContactDetailScreen({super.key, required this.contact});
+
+  Future<void> _deleteContact(BuildContext context) async {
+    final bool? shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Contact'),
+        content: Text(
+          'Delete "${contact.name ?? 'this contact'}"? This action cannot be undone.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldDelete != true || !context.mounted) return;
+
+    try {
+      await Provider.of<ContactProvider>(
+        context,
+        listen: false,
+      ).deleteContact(contact.id);
+
+      if (!context.mounted) return;
+      Navigator.pop(context, true);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Contact deleted successfully.')),
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to delete contact: $e')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +75,11 @@ class ContactDetailScreen extends StatelessWidget {
                 Navigator.pop(context, true);
               }
             },
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete_outline),
+            tooltip: 'Delete Contact',
+            onPressed: () => _deleteContact(context),
           ),
         ],
       ),

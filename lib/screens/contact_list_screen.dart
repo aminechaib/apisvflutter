@@ -103,7 +103,25 @@ class _ContactListScreenState extends State<ContactListScreen> {
               style: const TextStyle(fontWeight: FontWeight.w600),
             ),
             subtitle: Text(contact.email ?? 'No Email'),
-            trailing: Text(DateFormat('MMM d, yyyy').format(contact.createdAt)),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(DateFormat('MMM d, yyyy').format(contact.createdAt)),
+                PopupMenuButton<String>(
+                  onSelected: (value) {
+                    if (value == 'delete') {
+                      _deleteFromList(contact);
+                    }
+                  },
+                  itemBuilder: (context) => const [
+                    PopupMenuItem<String>(
+                      value: 'delete',
+                      child: Text('Delete'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
             onTap: () async {
               final bool? wasUpdated = await Navigator.push<bool>(
                 context,
@@ -123,6 +141,47 @@ class _ContactListScreenState extends State<ContactListScreen> {
         );
       },
     );
+  }
+
+  Future<void> _deleteFromList(Contact contact) async {
+    final bool? shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Contact'),
+        content: Text(
+          'Delete "${contact.name ?? 'this contact'}"? This action cannot be undone.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldDelete != true || !mounted) return;
+
+    try {
+      await Provider.of<ContactProvider>(
+        context,
+        listen: false,
+      ).deleteContact(contact.id);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Contact deleted successfully.')),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to delete contact: $e')));
+    }
   }
 
   void _showImagePicker(BuildContext context) {

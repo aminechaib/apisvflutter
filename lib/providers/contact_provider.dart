@@ -60,4 +60,20 @@ class ContactProvider with ChangeNotifier {
       rethrow;
     }
   }
+
+  Future<void> deleteContact(int contactId) async {
+    try {
+      await _apiService.deleteContact(contactId);
+      _contacts.removeWhere((contact) => contact.id == contactId);
+      if (_state != DataState.loaded) {
+        _state = DataState.loaded;
+      }
+      notifyListeners();
+    } catch (e) {
+      _errorMessage = e.toString();
+      _state = DataState.error;
+      notifyListeners();
+      rethrow;
+    }
+  }
 }
