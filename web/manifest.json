@@ -1,6 +1,6 @@
 {
-    "name": "scannow",
-    "short_name": "scannow",
+    "name": "ACScanner",
+    "short_name": "ACScanner",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#03080D",

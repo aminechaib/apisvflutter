@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "scannow" "\0"
+            VALUE "FileDescription", "ACScanner" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "scannow" "\0"
+            VALUE "InternalName", "ACScanner" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2026 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "scannow.exe" "\0"
-            VALUE "ProductName", "scannow" "\0"
+            VALUE "OriginalFilename", "ACScanner.exe" "\0"
+            VALUE "ProductName", "ACScanner" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

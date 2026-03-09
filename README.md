@@ -1,4 +1,4 @@
-# scannow
+# ACScanner
 
 A new Flutter project.
 

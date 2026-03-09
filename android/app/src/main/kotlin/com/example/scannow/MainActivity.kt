@@ -1,4 +1,4 @@
-package com.example.scannow
+package com.example.ACScanner
 
 import io.flutter.embedding.android.FlutterActivity
 
