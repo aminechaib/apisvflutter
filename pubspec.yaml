@@ -97,22 +97,25 @@ flutter:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: assets/images/ag_logo.png
+  image_path: assets/images/ag_logo_icon_fg.png
+  image_path_android: assets/images/ag_logo_icon_fg.png
+  image_path_ios: assets/images/ag_logo_icon_white.png
   min_sdk_android: 21
-  adaptive_icon_background: "#03080D"
-  adaptive_icon_foreground: assets/images/ag_logo.png
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: assets/images/ag_logo_icon_fg.png
+  remove_alpha_ios: true
   web:
     generate: true
-    image_path: assets/images/ag_logo.png
-    background_color: "#03080D"
+    image_path: assets/images/ag_logo_icon_fg.png
+    background_color: "#FFFFFF"
     theme_color: "#22B7C7"
   windows:
     generate: true
-    image_path: assets/images/ag_logo.png
+    image_path: assets/images/ag_logo_icon_fg.png
     icon_size: 256
   macos:
     generate: true
-    image_path: assets/images/ag_logo.png
+    image_path: assets/images/ag_logo_icon_fg.png
 
 flutter_native_splash:
   color: "#03080D"
