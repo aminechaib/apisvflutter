@@ -4,4 +4,7 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- Allow HTTP for local development (Laragon / php artisan serve). -->
+    <application android:usesCleartextTraffic="true" />
 </manifest>

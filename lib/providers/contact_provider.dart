@@ -1,5 +1,7 @@
 // lib/providers/contact_provider.dart
 
+import 'dart:io';
+
 import 'package:flutter/material.dart'; // <-- FIX: This import is crucial
 import '../api/api_service.dart';
 import '../models/contact.dart';
@@ -34,9 +36,15 @@ class ContactProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> submitTextAndRefresh(String ocrText) async {
+  Future<void> submitCardAndRefresh(
+    File imageFile, {
+    String? extractedText,
+  }) async {
     try {
-      await _apiService.submitExtractedText(ocrText);
+      await _apiService.submitCardImage(
+        imageFile,
+        extractedText: extractedText,
+      );
       await Future.delayed(const Duration(seconds: 5));
       await fetchContacts();
     } catch (e) {

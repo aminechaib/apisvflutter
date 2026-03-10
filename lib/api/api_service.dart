@@ -6,8 +6,16 @@ import 'package:http/http.dart' as http;
 import '../models/contact.dart';
 
 class ApiService {
-  // The base URL should be the root of your domain.
-  static const String _baseUrl = "https://card.sarlpro.com";
+  static const String _baseUrl = String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'https://card.sarlpro.com',
+  );
+
+  // class ApiService {
+  //   static const String _baseUrl = String.fromEnvironment(
+  //     'API_BASE_URL',
+  //     defaultValue: 'http://192.168.100.11/',
+  //   );
 
   /// Fetches the paginated list of validated contacts from the API.
   Future<List<Contact>> getContacts() async {
@@ -39,37 +47,37 @@ class ApiService {
     }
   }
 
-  /// Submits the extracted text from OCR to the backend for processing.
-  /// This method replaces the old image upload method.
-  Future<void> submitExtractedText(String text) async {
-    // This now points to the endpoint that accepts raw text.
-    final Uri uri = Uri.parse("$_baseUrl/api/process-text");
+  /// Uploads a compressed business card image to the backend for processing.
+  Future<void> submitCardImage(File imageFile, {String? extractedText}) async {
+    final Uri uri = Uri.parse("$_baseUrl/api/process-card");
 
     try {
-      final response = await http
-          .post(
-            uri,
-            headers: {
-              'Content-Type': 'application/json; charset=UTF-8',
-              'Accept': 'application/json',
-            },
-            // We now send a JSON body with the extracted text.
-            body: json.encode({'text': text}),
-          )
-          .timeout(const Duration(seconds: 15));
+      final request = http.MultipartRequest('POST', uri)
+        ..headers['Accept'] = 'application/json'
+        ..fields.addAll({
+          if (extractedText != null && extractedText.trim().isNotEmpty)
+            'text': extractedText.trim(),
+        })
+        ..files.add(
+          await http.MultipartFile.fromPath('card_image', imageFile.path),
+        );
 
-      // The backend should respond with 202 Accepted if it successfully
-      // queued the job for processing by Mistral AI.
+      final streamedResponse = await request.send().timeout(
+        const Duration(seconds: 30),
+      );
+      final response = await http.Response.fromStream(streamedResponse);
+
       if (response.statusCode != 202) {
         throw Exception(
-          'Failed to submit text for processing. Status code: ${response.statusCode}\nResponse: ${response.body}',
+          'Failed to upload card image. Status code: ${response.statusCode}\nResponse: ${response.body}',
         );
       }
-      // If successful, there's nothing to return, the method just completes.
     } on SocketException {
       throw Exception('No Internet connection. Please check your network.');
     } catch (e) {
-      throw Exception('An unexpected error occurred while submitting text: $e');
+      throw Exception(
+        'An unexpected error occurred while uploading the card image: $e',
+      );
     }
   }
 
@@ -99,7 +107,9 @@ class ApiService {
     } on SocketException {
       throw Exception('No Internet connection. Please check your network.');
     } catch (e) {
-      throw Exception('An unexpected error occurred while updating contact: $e');
+      throw Exception(
+        'An unexpected error occurred while updating contact: $e',
+      );
     }
   }
 
@@ -109,10 +119,7 @@ class ApiService {
 
     try {
       final response = await http
-          .delete(
-            uri,
-            headers: {'Accept': 'application/json'},
-          )
+          .delete(uri, headers: {'Accept': 'application/json'})
           .timeout(const Duration(seconds: 15));
 
       if (response.statusCode != 204) {
@@ -123,7 +130,9 @@ class ApiService {
     } on SocketException {
       throw Exception('No Internet connection. Please check your network.');
     } catch (e) {
-      throw Exception('An unexpected error occurred while deleting contact: $e');
+      throw Exception(
+        'An unexpected error occurred while deleting contact: $e',
+      );
     }
   }
 }

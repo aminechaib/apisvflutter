@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
@@ -263,7 +264,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Choose a source for OCR and contact extraction.',
+                      'Choose a source for card upload and extraction.',
                       style: TextStyle(color: Colors.white70),
                     ),
                     const SizedBox(height: 18),
@@ -321,14 +322,16 @@ class _ContactListScreenState extends State<ContactListScreen> {
           children: [
             CircularProgressIndicator(),
             SizedBox(width: 20),
-            Expanded(child: Text('Extracting text from the card...')),
+            Expanded(child: Text('Extracting text and uploading...')),
           ],
         ),
       ),
     );
 
     try {
-      final inputImage = InputImage.fromFilePath(image.path);
+      final imageFile = File(image.path);
+
+      final inputImage = InputImage.fromFilePath(imageFile.path);
       final textRecognizer = TextRecognizer(
         script: TextRecognitionScript.latin,
       );
@@ -338,22 +341,18 @@ class _ContactListScreenState extends State<ContactListScreen> {
       if (!mounted) return;
       Navigator.pop(context);
 
-      if (recognizedText.text.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Could not find any text in the image.'),
-          ),
-        );
-        return;
-      }
-
       final provider = Provider.of<ContactProvider>(context, listen: false);
-      await provider.submitTextAndRefresh(recognizedText.text);
+      await provider.submitCardAndRefresh(
+        imageFile,
+        extractedText: recognizedText.text,
+      );
     } catch (e) {
       if (!mounted) return;
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('An error occurred during OCR: $e')),
+        SnackBar(
+          content: Text('An error occurred while uploading the card: $e'),
+        ),
       );
     }
   }
@@ -420,7 +419,6 @@ class _HeroPanel extends StatelessWidget {
           const SizedBox(height: 20),
           Row(
             children: [
-           
               const SizedBox(width: 16),
               FilledButton.tonalIcon(
                 onPressed: onScanPressed,
