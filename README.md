@@ -43,7 +43,11 @@ Provider (ChangeNotifier) → UI Screens (List/Detail/Edit)
 **Backend Repo**: [../apisv](https://github.com/aminechaib/apisv) (Laravel 12 API)
 
 ## 📱 Screenshots
+<<<<<<< HEAD
 ![Demo](https://raw.githubusercontent.com/aminechaib/apisvflutter/main/Screenshot_20260505-134632.png)
+=======
+![Demo](https://raw.githubusercontent.com/aminechaib/apisvflutter/main/flutter_01.png)
+>>>>>>> c718849dd8978d3655801b5d9c3f9e19ec02a567
 
 ## 🚀 Quick Start
 
