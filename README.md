@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/aminechaib/apisvflutter/main/business-card-icon.png" width="30" alt="Algeria"> 
+  <img src="https://raw.githubusercontent.com/aminechaib/apisvflutter/main/Flag_map_of_Algeria.svg" width="30" alt="Algeria"> 
   <strong><a href="https://github.com/aminechaib">Amine Chaib</a></strong><br>
   🇩🇿 DZ Fullstack Developer
 </p>
