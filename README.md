@@ -1,15 +1,15 @@
-<p align=\"center\">
-  <img src=\"https://raw.githubusercontent.com/gyfm/logos/main/business-card.svg\" width=\"200\" alt=\"ACScanner\">
+<p align="center">
+  <img src="https://raw.githubusercontent.com/aminechaib/apisvflutter/main/business-card-icon.png" width="200" alt="ACScanner">
   <h1>ACScanner - Business Card Mobile App</h1>
-  <img src=\"https://img.shields.io/badge/Flutter-3.24-blue.svg?style=for-the-badge\" alt=\"Flutter\">
-  <img src=\"https://img.shields.io/badge/State-Provider-green.svg?style=for-the-badge\" alt=\"Provider\">
-  <img src=\"https://img.shields.io/badge/OCR-MLKit-orange.svg?style=for-the-badge\" alt=\"Google MLKit\">
-  <img src=\"https://img.shields.io/badge/Backend-Laravel_API-purple.svg?style=for-the-badge\" alt=\"Laravel Backend\">
+  <img src="https://img.shields.io/badge/Flutter-3.24-blue.svg?style=for-the-badge" alt="Flutter">
+  <img src="https://img.shields.io/badge/State-Provider-green.svg?style=for-the-badge" alt="Provider">
+  <img src="https://img.shields.io/badge/OCR-MLKit-orange.svg?style=for-the-badge" alt="Google MLKit">
+  <img src="https://img.shields.io/badge/Backend-Laravel_API-purple.svg?style=for-the-badge" alt="Laravel Backend">
 </p>
 
-<p align=\"center\">
-  <img src=\"https://raw.githubusercontent.com/gilbarbara/readme-developer-languages/master/images/Algeria.png\" width=\"30\" alt=\"Algeria\"> 
-  <strong><a href=\"https://github.com/aminechaibdz\">Amine Chaib</a></strong><br>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/aminechaib/apisvflutter/main/ag_logo_icon_white.svg" width="30" alt="Algeria"> 
+  <strong><a href="https://github.com/aminechaib">Amine Chaib</a></strong><br>
   🇩🇿 DZ Fullstack Developer
 </p>
 
@@ -40,10 +40,10 @@ Camera/MLKit OCR → ApiService (http) → Laravel Backend
 Provider (ChangeNotifier) → UI Screens (List/Detail/Edit)
 ```
 
-**Backend Repo**: [../apisv](https://github.com/aminechaibdz/apisv) (Laravel 12 API)
+**Backend Repo**: [../apisv](https://github.com/aminechaib/apisv) (Laravel 12 API)
 
 ## 📱 Screenshots
-![Demo](flutter_01.png)
+![Demo](https://raw.githubusercontent.com/aminechaib/apisvflutter/main/flutter_01.png)
 
 ## 🚀 Quick Start
 
@@ -91,7 +91,7 @@ Links to Laravel OCR API:
 - `PUT /api/contacts/{id}` → Edit
 - `DELETE /api/contacts/{id}`
 
-Full docs: [Backend README](../apisv/README.md)
+Full docs: [Backend README](https://github.com/aminechaib/apisv/blob/main/README.md)
 
 ## 🔧 Build & Release
 ```bash
@@ -109,8 +109,8 @@ flutter build windows
 ## 📄 License
 MIT © 2024 Amine Chaib 🇩🇿
 
-<div align=\"center\">
-  <img src=\"https://komarev.com/ghpvc/?username=aminechaibdz&label=Profile%20views&color=0e75b6&style=flat\">
+<div align="center">
+  <img src="https://komarev.com/ghpvc/?username=aminechaib&label=Profile%20views&color=0e75b6&style=flat">
 </div>
 
 **⭐ Made with Flutter & Laravel**
